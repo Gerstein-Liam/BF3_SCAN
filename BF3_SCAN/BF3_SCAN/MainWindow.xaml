@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BF3_SCAN"
         mc:Ignorable="d"
-         Title="Battlefield 3 Scanner" Height="331" Width="930"  Background="Azure">
+         Title="Battlefield 3 Scanner: By 02Javel" Height="331" Width="930"  Background="Azure">
     <Grid>
         <CheckBox Name="cb_Kharg" Content="Kharg Island" HorizontalAlignment="Left" Margin="634,66,0,0" VerticalAlignment="Top"/>
         <CheckBox Name="cb_Wake" Content="Wake Island" HorizontalAlignment="Left" Margin="634,82,0,0" VerticalAlignment="Top"/>
