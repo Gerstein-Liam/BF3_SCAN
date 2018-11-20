@@ -144,6 +144,7 @@ namespace BF3_SCAN
                     {
                         Result_matching_text.Content = this_requested_map + " now! ";
                         Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+                        Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
                         Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
                         Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
                         Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
@@ -151,6 +152,7 @@ namespace BF3_SCAN
                     }
                     else
                     {
+                        Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
                         Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
                     }
                 });
