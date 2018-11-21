@@ -79,6 +79,8 @@ namespace BF3_SCAN
                             token.ThrowIfCancellationRequested();
                             return;
                         }
+
+                        Thread.Sleep(100);
                     }
                 });
             }
@@ -109,6 +111,16 @@ namespace BF3_SCAN
                     var server_name = htmlDoc.DocumentNode.SelectNodes("//div/h1");
                     var maps = htmlDoc.DocumentNode.SelectSingleNode("//p/strong");
                     var modes = htmlDoc.DocumentNode.SelectNodes("//div/p");
+
+
+
+                    var player = htmlDoc.DocumentNode.SelectNodes("//tbody//tr/td");
+
+                  //  Console.WriteLine("Nb_Player  " + player[0].InnerHtml);
+
+
+
+
                     if (!map_running.Equals(maps.InnerHtml))
                     {
                         RoundBeginTime = DateTime.Now;
@@ -158,6 +170,7 @@ namespace BF3_SCAN
                         Result_mode.Text = mode_str;
                         Result_last_scan.Text = last_scan;
                         Result_scan_duration.Text = scan_duration;
+                        Result_NB_player.Text = player[0].InnerHtml;
                         if (map_running.Contains(this_requested_map))
                         {
                             Result_matching_text.Content = this_requested_map + " now! ";

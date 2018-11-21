@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BF3_SCAN"
         mc:Ignorable="d"
-         Title="Battlefield 3 Scanner: By 02Javel" Height="331" Width="930"  Background="Azure">
+         Title="Battlefield 3 Scanner: By 02Javel" Height="379" Width="930"  Background="Azure">
     <Grid>
         <CheckBox Name="cb_Kharg" Content="Kharg Island" HorizontalAlignment="Left" Margin="634,66,0,0" VerticalAlignment="Top"/>
         <CheckBox Name="cb_Wake" Content="Wake Island" HorizontalAlignment="Left" Margin="634,82,0,0" VerticalAlignment="Top"/>
@@ -32,5 +32,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="764,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="121"><Run Text="Scan "/><Run Text="Rate [Seconds]"/></TextBlock>
         <Rectangle Name="Result_matching_point" Fill="#FFDC0808" HorizontalAlignment="Left" Height="38" Margin="21,19,0,0" Stroke="Black" VerticalAlignment="Top" Width="42" RadiusX="100" RadiusY="100"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,142,-2,0" Stroke="Black" VerticalAlignment="Top" Width="924"/>
+        <Label Content="NB Player" HorizontalAlignment="Left" Margin="94,285,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.632,2.308" Width="82"/>
+        <TextBox Name="Result_NB_player" HorizontalAlignment="Left" Height="23" Margin="176,285,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="118"/>
     </Grid>
 </Window>
