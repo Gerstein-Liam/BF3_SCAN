@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:BF3_SCAN"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ImageBrush x:Key="Background" ImageSource="Images/Noshahr-Canal.jpg" />
     </Application.Resources>
 </Application>

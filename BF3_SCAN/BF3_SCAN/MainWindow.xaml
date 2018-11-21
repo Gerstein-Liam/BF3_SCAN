@@ -5,34 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BF3_SCAN"
         mc:Ignorable="d"
-         Title="Battlefield 3 Scanner: By 02Javel" Height="379" Width="930"  Background="Azure">
+        
+       Title="Battlefield 3 Scanner V1.00: By 02Javel" Height="379" Width="930" Background="Azure">
+      
     <Grid>
-        <CheckBox Name="cb_Kharg" Content="Kharg Island" HorizontalAlignment="Left" Margin="634,66,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="cb_Wake" Content="Wake Island" HorizontalAlignment="Left" Margin="634,82,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="cb_Shargi" Content="Sharqi Peninsula" HorizontalAlignment="Left" Margin="634,97,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="cb_Noshahr" Content="Noshahr Canals" HorizontalAlignment="Left" Margin="634,112,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="Server_URL" HorizontalAlignment="Left" Height="63" Margin="94,64,0,0" TextWrapping="Wrap" Text="Server URL" VerticalAlignment="Top" Width="529"/>
-        <TextBox Name="Scan_Rate" HorizontalAlignment="Left" Height="22" Margin="764,66,0,0" TextWrapping="Wrap" Text="30" VerticalAlignment="Top" Width="104"/>
-        <Button Name="button_scan" Content="Start scanning" HorizontalAlignment="Left" Margin="764,94,0,0" VerticalAlignment="Top" Width="104" Click="bt_scan" Height="33"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="106*"/>
+            <ColumnDefinition Width="355*"/>
+        </Grid.ColumnDefinitions>
+        <CheckBox Name="cb_Kharg" Content="Kharg Island" HorizontalAlignment="Left" Margin="422,66,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <CheckBox Name="cb_Wake" Content="Wake Island" HorizontalAlignment="Left" Margin="422,82,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <CheckBox Name="cb_Shargi" Content="Sharqi Peninsula" HorizontalAlignment="Left" Margin="422,97,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <CheckBox Name="cb_Noshahr" Content="Noshahr Canals" HorizontalAlignment="Left" Margin="422,112,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox Name="Server_URL" HorizontalAlignment="Left" Height="63" Margin="94,64,0,0" TextWrapping="Wrap" Text="Server URL" VerticalAlignment="Top" Width="529" Grid.ColumnSpan="2"/>
+        <TextBox Name="Scan_Rate" HorizontalAlignment="Left" Height="22" Margin="552,66,0,0" TextWrapping="Wrap" Text="30" VerticalAlignment="Top" Width="104" Grid.Column="1"/>
+        <Button Name="button_scan" Content="Start scanning" HorizontalAlignment="Left" Margin="552,94,0,0" VerticalAlignment="Top" Width="104" Click="bt_scan" Height="33" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="97,204,0,0" TextWrapping="Wrap" Text="Server Name" VerticalAlignment="Top" Height="28" Width="73"/>
-        <TextBox Name="Result_Server_name" HorizontalAlignment="Left" Height="28" Margin="176,204,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="447" />
-        <Label Content="Scanning Parameters" HorizontalAlignment="Left" Margin="94,18,0,0" VerticalAlignment="Top" Width="296" FontSize="22"/>
-        <Label Content="Results [" HorizontalAlignment="Left" Margin="96,153,0,0" VerticalAlignment="Top" FontSize="22" Width="145"/>
+        <TextBox Name="Result_Server_name" HorizontalAlignment="Left" Height="28" Margin="176,204,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="447" Grid.ColumnSpan="2" />
+        <Label Content="Scanning Parameters" HorizontalAlignment="Left" Margin="94,18,0,0" VerticalAlignment="Top" Width="296" FontSize="22" Grid.ColumnSpan="2"/>
+        <Label Content="Results [" HorizontalAlignment="Left" Margin="96,153,0,0" VerticalAlignment="Top" FontSize="22" Width="145" Grid.ColumnSpan="2"/>
         <Label Content="Running Map" HorizontalAlignment="Left" Margin="94,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.632,2.308" Width="82"/>
-        <TextBox Name="Result_running_map" HorizontalAlignment="Left" Height="26" Margin="176,244,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="220"/>
-        <Label Content="Mode" HorizontalAlignment="Left" Margin="422,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.632,2.308"/>
-        <TextBox Name="Result_mode" HorizontalAlignment="Left" Height="26" Margin="478,244,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145"/>
-        <Label Content="]" HorizontalAlignment="Left" Margin="618,153,0,0" VerticalAlignment="Top" FontSize="22" Width="35"/>
-        <TextBlock HorizontalAlignment="Left" Margin="189,164,0,0" TextWrapping="Wrap" Text="Last Scan" VerticalAlignment="Top" Height="28" Width="81"/>
-        <TextBox Name="Result_last_scan" HorizontalAlignment="Left" Height="23" Margin="270,163,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="404,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="84"><Run Text="Scan Duratio"/><Run Text="n"/></TextBlock>
-        <TextBox Name="Result_scan_duration" HorizontalAlignment="Left" Height="23" Margin="488,164,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Rectangle Name="Result_matching_rect" Fill="#FFDC0808" HorizontalAlignment="Left" Height="66" Margin="634,204,0,0" Stroke="Black" VerticalAlignment="Top" Width="235" RadiusX="10" RadiusY="10"/>
-        <Label Name="Result_matching_text" Content="No Match" HorizontalAlignment="Left" Margin="647,222,0,0" VerticalAlignment="Top" FontSize="16" Width="210" Height="42" RenderTransformOrigin="0.533,0.762"/>
-        <TextBlock HorizontalAlignment="Left" Margin="764,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="121"><Run Text="Scan "/><Run Text="Rate [Seconds]"/></TextBlock>
+        <TextBox Name="Result_running_map" HorizontalAlignment="Left" Height="26" Margin="176,244,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2"/>
+        <Label Content="Mode" HorizontalAlignment="Left" Margin="210,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.632,2.308" Grid.Column="1"/>
+        <TextBox Name="Result_mode" HorizontalAlignment="Left" Height="26" Margin="266,244,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="145" Grid.Column="1"/>
+        <Label Content="]" HorizontalAlignment="Left" Margin="406,153,0,0" VerticalAlignment="Top" FontSize="22" Width="35" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="189,164,0,0" TextWrapping="Wrap" Text="Last Scan" VerticalAlignment="Top" Height="28" Width="81" Grid.ColumnSpan="2"/>
+        <TextBox Name="Result_last_scan" HorizontalAlignment="Left" Height="23" Margin="58,163,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="192,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="84" Grid.Column="1"><Run Text="Scan Duratio"/><Run Text="n"/></TextBlock>
+        <TextBox Name="Result_scan_duration" HorizontalAlignment="Left" Height="23" Margin="276,164,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Rectangle Name="Result_matching_rect" Fill="#FFDC0808" HorizontalAlignment="Left" Height="66" Margin="422,204,0,0" Stroke="Black" VerticalAlignment="Top" Width="235" RadiusX="10" RadiusY="10" Grid.Column="1"/>
+        <Label Name="Result_matching_text" Content="No Match" HorizontalAlignment="Left" Margin="435,222,0,0" VerticalAlignment="Top" FontSize="16" Width="210" Height="42" RenderTransformOrigin="0.533,0.762" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="552,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="121" Grid.Column="1"><Run Text="Scan "/><Run Text="Rate [Seconds]"/></TextBlock>
         <Rectangle Name="Result_matching_point" Fill="#FFDC0808" HorizontalAlignment="Left" Height="38" Margin="21,19,0,0" Stroke="Black" VerticalAlignment="Top" Width="42" RadiusX="100" RadiusY="100"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,142,-2,0" Stroke="Black" VerticalAlignment="Top" Width="924"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,142,-2,0" Stroke="Black" VerticalAlignment="Top" Width="924" Grid.ColumnSpan="2"/>
         <Label Content="NB Player" HorizontalAlignment="Left" Margin="94,285,0,0" VerticalAlignment="Top" RenderTransformOrigin="-10.632,2.308" Width="82"/>
-        <TextBox Name="Result_NB_player" HorizontalAlignment="Left" Height="23" Margin="176,285,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="118"/>
+        <TextBox Name="Result_NB_player" HorizontalAlignment="Left" Height="23" Margin="176,285,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="118" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

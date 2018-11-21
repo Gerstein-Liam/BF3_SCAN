@@ -21,6 +21,8 @@ namespace BF3_SCAN
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
+    ///  https://www.c-sharpcorner.com/article/aborting-thread-vs-cancelling-task/
+    //    Title="Battlefield 3 Scanner V1.00: By 02Javel" Height="379" Width="930"  Background="{StaticResource Background}">
     public partial class MainWindow : Window
     {
         private Task Scan_Task;
