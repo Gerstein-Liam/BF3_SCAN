@@ -24,6 +24,9 @@ namespace BF3_SCAN
     public partial class MainWindow : Window
     {
         private Task Scan_Task;
+        private CancellationTokenSource source;
+        private CancellationToken token;
+        static Thread ThreadToCancel = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +35,8 @@ namespace BF3_SCAN
         {
             if (button_scan.Content.Equals("Start scanning"))
             {
+                source = new CancellationTokenSource();
+                token = source.Token;
                 button_scan.Content = "Stop Scanning";
                 Console.Out.WriteLine("Server URL" + Server_URL.GetLineText(0));
                 Console.WriteLine("Scan_Rate" + Scan_Rate.GetLineText(0));
@@ -59,125 +64,124 @@ namespace BF3_SCAN
                     Console.WriteLine(Request_Map_para);
                 }
                 SCAN_parameters sc_para = new SCAN_parameters(Server_URL_para, Scan_Rate_para, Request_Map_para);
-                Scan_Task = Task.Factory.StartNew(() =>
+                ParseAndUpdateGUI(sc_para);
+
+
+                Task.Factory.StartNew(() =>
                 {
-                    GetServerInfo(sc_para);
+                    while (true)
+                    {
+                        // Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                        if (token.IsCancellationRequested && ThreadToCancel != null)
+                        {
+                            ThreadToCancel.Abort();//abort long running thread  
+                            Console.WriteLine("Thread aborted");
+                            token.ThrowIfCancellationRequested();
+                            return;
+                        }
+                    }
                 });
             }
             else
             {
+                source.Cancel();
                 button_scan.Content = "Start scanning";
             }
         }
-        private void GetServerInfo(object sc_para)
+        public async Task ParseAndUpdateGUI(object sc_para)
         {
-            SCAN_parameters this_sc_para = (SCAN_parameters)sc_para;
-            Console.WriteLine("Thread parameter" + (string)this_sc_para.Get_Server_url() + " " + (string)this_sc_para.Get_Requested_Map());
-            String this_url = (string)this_sc_para.Get_Server_url();
-            string this_requested_map = (string)this_sc_para.Get_Requested_Map();
-            Int32 this_serv_freq = this_sc_para.Get_Polling_Freq();
-            string map_running = "noset";
-            DateTime RoundBeginTime = DateTime.Now;
-            while (true)
+            await Task.Factory.StartNew(() =>
             {
-                // var html = @;
-                HtmlWeb web = new HtmlWeb();
-                var htmlDoc = web.Load(this_url);
-                var server_name = htmlDoc.DocumentNode.SelectNodes("//div/h1");
-                var maps = htmlDoc.DocumentNode.SelectSingleNode("//p/strong");
-                var modes = htmlDoc.DocumentNode.SelectNodes("//div/p");
-                if (!map_running.Equals(maps.InnerHtml))
+                SCAN_parameters this_sc_para = (SCAN_parameters)sc_para;
+               // Console.WriteLine("Thread parameter" + (string)this_sc_para.Get_Server_url() + " " + (string)this_sc_para.Get_Requested_Map());
+                String this_url = (string)this_sc_para.Get_Server_url();
+                string this_requested_map = (string)this_sc_para.Get_Requested_Map();
+                Int32 this_serv_freq = this_sc_para.Get_Polling_Freq();
+                string map_running = "noset";
+                DateTime RoundBeginTime = DateTime.Now;
+                ThreadToCancel = Thread.CurrentThread;
+                int count = 0;
+                while (true)
                 {
-                    RoundBeginTime = DateTime.Now;
-                    map_running = maps.InnerHtml;
-                }
-                //Console.WriteLine("Mode    :   " + mode[1].InnerHtml);
-                string modes_separate = modes[1].InnerHtml;
-                string[] words = modes_separate.Split(' ');
-                int ptr = 0;
-                string mode_str = " ";
-                foreach (var word in words)
-                {
-                    //System.Console.WriteLine($"<{word}>");
-                    if (word.Contains("Conquest"))
+                    // var html = @;
+                    HtmlWeb web = new HtmlWeb();
+                    var htmlDoc = web.Load(this_url);
+                    var server_name = htmlDoc.DocumentNode.SelectNodes("//div/h1");
+                    var maps = htmlDoc.DocumentNode.SelectSingleNode("//p/strong");
+                    var modes = htmlDoc.DocumentNode.SelectNodes("//div/p");
+                    if (!map_running.Equals(maps.InnerHtml))
                     {
-                        if (words[ptr + 1].Contains("Large") || words[ptr + 1].Contains("Assault"))
+                        RoundBeginTime = DateTime.Now;
+                        map_running = maps.InnerHtml;
+                    }
+                    //Console.WriteLine("Mode    :   " + mode[1].InnerHtml);
+                    string modes_separate = modes[1].InnerHtml;
+                    string[] words = modes_separate.Split(' ');
+                    int ptr = 0;
+                    string mode_str = " ";
+                    foreach (var word in words)
+                    {
+                        //System.Console.WriteLine($"<{word}>");
+                        if (word.Contains("Conquest"))
                         {
-                            if (words[ptr + 2].Contains("Large"))
+                            if (words[ptr + 1].Contains("Large") || words[ptr + 1].Contains("Assault"))
                             {
-                                mode_str = words[ptr] + " " + words[ptr + 1] + " " + words[ptr + 2];
+                                if (words[ptr + 2].Contains("Large"))
+                                {
+                                    mode_str = words[ptr] + " " + words[ptr + 1] + " " + words[ptr + 2];
+                                }
+                                else
+                                {
+                                    mode_str = words[ptr] + " " + words[ptr + 1];
+                                }
                             }
+                            //System.Console.WriteLine(words[ptr]);
                             else
-                            {
-                                mode_str = words[ptr] + " " + words[ptr + 1];
-                            }
+                            { mode_str = words[ptr]; }
                         }
-                        //System.Console.WriteLine(words[ptr]);
+                        if (word.Contains("Rush"))
+                        {
+                            mode_str = words[ptr];
+                        }
                         else
-                        { mode_str = words[ptr]; }
+                        {
+                            ptr++;
+                        }
                     }
-                    if (word.Contains("Rush"))
+             
+                    string last_scan = DateTime.Now.ToString();
+                    string scan_duration = DateTime.Now.Subtract(RoundBeginTime).ToString();
+                    Dispatcher.Invoke(() =>
                     {
-                        mode_str = words[ptr];
-                    }
-                    else
+                        Result_Server_name.Text = server_name[1].InnerHtml;
+                        Result_running_map.Text = map_running;
+                        Result_mode.Text = mode_str;
+                        Result_last_scan.Text = last_scan;
+                        Result_scan_duration.Text = scan_duration;
+                        if (map_running.Contains(this_requested_map))
+                        {
+                            Result_matching_text.Content = this_requested_map + " now! ";
+                            Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+                            Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+                       
+                        }
+                        else
+                        {
+                            Result_matching_text.Content = "No match";
+                            Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                            Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                        }
+                    });
+                   
+                    try
                     {
-                        ptr++;
+                        Thread.Sleep(1000 * this_serv_freq);
                     }
+                    catch (ThreadInterruptedException) { }
                 }
-                //   Console.Clear();
-                Console.WriteLine("------------SCAN PARAMETER-------------------");
-                Console.WriteLine("URL             :");
-                Console.WriteLine(this_url);
-                Console.WriteLine("REQUESTED MAP   : " + this_requested_map);
-                Console.WriteLine("SCAN FREQ [s]   : " + this_serv_freq);
-                string last_scan = DateTime.Now.ToString();
-                string scan_duration = DateTime.Now.Subtract(RoundBeginTime).ToString();
-                Dispatcher.Invoke(() =>
-                {
-                    Result_Server_name.Text = server_name[1].InnerHtml;
-                    Result_running_map.Text = map_running;
-                    Result_mode.Text = mode_str;
-                    Result_last_scan.Text = last_scan;
-                    Result_scan_duration.Text = scan_duration;
-                    if (map_running.Contains(this_requested_map))
-                    {
-                        Result_matching_text.Content = this_requested_map + " now! ";
-                        Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
-                        Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
-                        Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                        Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                        Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                        Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                    }
-                    else
-                    {
-                        Result_matching_point.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
-                        Result_matching_rect.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
-                    }
-                });
-                Console.WriteLine("Server          :   " + server_name[1].InnerHtml);
-                Console.WriteLine("------------SCAN RESULTS----------------------");
-                Console.WriteLine("Last SCAN       :" + DateTime.Now);
-                Console.WriteLine("Server          :   " + server_name[1].InnerHtml);
-                Console.WriteLine("MAP             :   " + map_running);
-                Console.WriteLine("MODE            :   " + mode_str);
-                Console.WriteLine("  ");
-                Console.WriteLine("Round Duration  :" + DateTime.Now.Subtract(RoundBeginTime));
-                if (map_running.Contains(this_requested_map))
-                {
-                    Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                    Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                    Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                    Console.WriteLine("!!!!!!!!!!Your map is running!!!!!!!       :");
-                }
-                try
-                {
-                    Thread.Sleep(1000 * this_serv_freq);
-                }
-                catch (ThreadInterruptedException) { }
-            }
+            });
         }
+    
         public class SCAN_parameters
         {
             string Server_url;

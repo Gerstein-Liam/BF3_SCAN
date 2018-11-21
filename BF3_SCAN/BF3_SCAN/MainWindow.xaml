@@ -28,7 +28,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="404,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="84"><Run Text="Scan Duratio"/><Run Text="n"/></TextBlock>
         <TextBox Name="Result_scan_duration" HorizontalAlignment="Left" Height="23" Margin="488,164,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Rectangle Name="Result_matching_rect" Fill="#FFDC0808" HorizontalAlignment="Left" Height="66" Margin="634,204,0,0" Stroke="Black" VerticalAlignment="Top" Width="235" RadiusX="10" RadiusY="10"/>
-        <Label Name="Result_matching_text" Content="Your map not running now" HorizontalAlignment="Left" Margin="647,222,0,0" VerticalAlignment="Top" FontSize="16" Width="210" Height="42" RenderTransformOrigin="0.533,0.762"/>
+        <Label Name="Result_matching_text" Content="No Match" HorizontalAlignment="Left" Margin="647,222,0,0" VerticalAlignment="Top" FontSize="16" Width="210" Height="42" RenderTransformOrigin="0.533,0.762"/>
         <TextBlock HorizontalAlignment="Left" Margin="764,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="121"><Run Text="Scan "/><Run Text="Rate [Seconds]"/></TextBlock>
         <Rectangle Name="Result_matching_point" Fill="#FFDC0808" HorizontalAlignment="Left" Height="38" Margin="21,19,0,0" Stroke="Black" VerticalAlignment="Top" Width="42" RadiusX="100" RadiusY="100"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="1" Margin="0,142,-2,0" Stroke="Black" VerticalAlignment="Top" Width="924"/>
